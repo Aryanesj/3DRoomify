@@ -4,14 +4,14 @@ output "load_balancer_ip" {
   description = "IP address of the Load Balancer"
 }
 
-output "domain" {
-  value       = "3droomify.com"
-  description = "The domain name"
-}
-
 output "bucket_name" {
   value       = local.bucket_name
   description = "GCS Bucket name for static site content"
+}
+
+output "domain" {
+  value       = "3droomify.com"
+  description = "The domain name"
 }
 
 output "ssl_certificate" {

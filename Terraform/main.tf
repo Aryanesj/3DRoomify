@@ -94,12 +94,12 @@ resource "google_compute_firewall" "allow_health_check" {
     ports    = ["80", "443"]
   }
 
-  source_ranges = ["130.211.0.0/22", "35.191.0.0/16"]
+  source_ranges = var.source_ranges
 }
 # ---| A-record in CloudFlare |-----------------------------------------------------
 data "cloudflare_zones" "roomify" {
   filter {
-    name   = "3droomify.com"
+    name   = var.domain_name
     status = "active"
     paused = false
   }
@@ -107,7 +107,7 @@ data "cloudflare_zones" "roomify" {
 
 resource "cloudflare_record" "this" {
   zone_id = data.cloudflare_zones.roomify.zones[0].id
-  name    = "3droomify.com"
+  name    = var.domain_name
   value   = google_compute_global_address.load_balancer_ip.address
   type    = "A"
   ttl     = 1
@@ -132,6 +132,6 @@ resource "google_compute_global_forwarding_rule" "https_forwarding_rule" {
 resource "google_compute_managed_ssl_certificate" "ssl_cert" {
   name = "ssl-certificate"
   managed {
-    domains = ["3droomify.com"]
+    domains = [var.domain_name]
   }
 }

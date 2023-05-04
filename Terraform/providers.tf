@@ -3,19 +3,21 @@ terraform {
   required_providers {
     google = {
       source = "hashicorp/google"
+      version = "< 5.0.0"
     }
     github = {
       source = "integrations/github"
+      version = "< 5.30.0"
     }
     cloudflare = {
       source  = "cloudflare/cloudflare"
-      version = "4.4.0"
+      version = "< 5.0.0"
     }
   }
 }
 
 provider "google" {
-  credentials = file(var.credentials_file_path)
+  credentials = file(var.credentials_file)
   project     = var.project
   region      = var.region
   zone        = var.zone
